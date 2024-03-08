@@ -5,3 +5,8 @@
 /EventHubGettingStarted/.vs/EventHubGettingStarted
 /EventHubGettingStarted/bin/Debug/net8.0
 /EventHubGettingStarted/obj
+/EventHubGettingStarted/.vs/ProjectEvaluation
+/EventProcessorService/appsettings.Development.json
+/EventHubGettingStarted/EventConnection.cs
+/EventProcessorService/bin/Debug/net8.0
+/EventProcessorService/obj
