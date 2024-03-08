@@ -43,4 +43,25 @@ the partition represented by this record is considered unowned and is eligible t
 </code>
 
 
+## Configuring the client retry thresholds
 
+exponential back-off strategy by default
+
+<code>
+  RetryOptions = new EventHubsRetryOptions 
+				{
+					Mode = EventHubsRetryMode.Exponential,  // Exponential, Fixed
+					MaximumRetries = 5, 
+					Delay = TimeSpan.FromMilliseconds(800), // Delay b/w two retries
+					MaximumDelay = TimeSpan.FromSeconds(10) // Maximum Delay
+					TryTimeout = TimeSpan.FromMinutes(1) // timeout for communicating with the Event Hubs service. default 1 minute
+				}
+</code>
+
+### TryTimeout
+timeout for communicating with the Event Hubs service. 
+<bold>Note:</bold>
+This value is important to the EventProcessorClient when StopProcessingAsync is invoked. 
+Because the processor will allow processing for each owned partition to complete when shutting down, 
+if reading from the Event Hubs service is taking place when the processor attempts to stop, 
+it may take up to the duration of the TryTimeout to complete.

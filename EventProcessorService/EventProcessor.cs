@@ -10,11 +10,23 @@ namespace EventProcessorService
 		{
 			var processorOptions = new EventProcessorClientOptions
 			{
-				LoadBalancingStrategy = LoadBalancingStrategy.Greedy,
 				Identifier = Guid.NewGuid().ToString(),// should be stable Id instead of Random Guid 
-
+				#region  Load balancing options
+				LoadBalancingStrategy = LoadBalancingStrategy.Greedy,
 				LoadBalancingUpdateInterval = TimeSpan.FromSeconds(10),
-				PartitionOwnershipExpirationInterval = TimeSpan.FromSeconds(30)  //PartitionOwnershipExpirationInterval >= 3(LoadBalancingUpdateInterval)
+				PartitionOwnershipExpirationInterval = TimeSpan.FromSeconds(30),  //PartitionOwnershipExpirationInterval >= 3(LoadBalancingUpdateInterval)
+				#endregion
+
+				#region Retry Options
+				RetryOptions = new EventHubsRetryOptions 
+				{
+					Mode = EventHubsRetryMode.Exponential,
+					MaximumRetries = 5,
+					Delay = TimeSpan.FromMilliseconds(800),
+					MaximumDelay = TimeSpan.FromSeconds(10),
+					TryTimeout = TimeSpan.FromMinutes(1)
+				}
+				#endregion
 
 			};
 			// Replace configuration values in appsettings.json.
